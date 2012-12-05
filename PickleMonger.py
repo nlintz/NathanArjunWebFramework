@@ -28,8 +28,8 @@ class PickleMonger(object):
     def read(self, modelName):
         dbFile = open(DBFILENAME, 'r+b')
         self.objectMap = pickle.load(dbFile)
-        return self.objectMap[modelName]
         dbFile.close()
+        return self.objectMap[modelName]
 
     #This method is used to add objects to a model
     def addObject(self, model):
