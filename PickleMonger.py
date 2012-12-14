@@ -29,8 +29,8 @@ class PickleMonger(object):
     def read_allInstances(self, modelName):
         dbFile = open(self.DBFILENAME, 'r+b')
         self.objectMap = pickle.load(dbFile)
-        return self.objectMap[modelName]
         dbFile.close()
+        return self.objectMap[modelName]
 
     def read_oneInstances(self, modelName, instanceName):
         dbFile = open(self.DBFILENAME, 'r+b')
