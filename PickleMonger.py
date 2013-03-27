@@ -19,7 +19,7 @@ class PickleMonger(object):
         dbFile = open(self.DBFILENAME, 'r+b')
         currentObjectMap = pickle.load(dbFile)
         if modelname in currentObjectMap.keys():
-            raise MultipleModelException
+            return
         self.objectMap[modelname] = []
         dbFile = open(self.DBFILENAME, 'w+b')
         pickle.dump(self.objectMap, dbFile)
@@ -55,6 +55,16 @@ class PickleMonger(object):
         pickle.dump(self.objectMap, dbFile)
         dbFile.close()
 
+    def updateObject(self, model):
+        modelName = model.modelName
+        dbFile = open(self.DBFILENAME, 'r+b')
+        self.objectMap = pickle.load(dbFile)
+
+        self.objectMap[modelName] = model
+        dbFile = open(self.DBFILENAME, 'w+b')
+        pickle.dump(self.objectMap, dbFile)
+        dbFile.close()
+
     #This method destroys a model
     def destroyModel(self, modelName):
         dbFile = open(self.DBFILENAME, 'r+b')
@@ -79,7 +89,7 @@ class PickleMonger(object):
         self.objectMap = pickle.load(dbFile)
         for instance in self.objectMap[modelName]:
             if instance.instanceName == instanceName:
-                self.objectMap[modelName][instance] = newInstance
+                self.objectMap[modelName][self.objectMap[modelName].index(instance)] = newInstance
 
         dbFile = open(self.DBFILENAME, 'w+b')
         pickle.dump(self.objectMap, dbFile)
